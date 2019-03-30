@@ -1,5 +1,40 @@
-HelloWorld
-
 <script>
-  
+    let urlS = window.location.href;
+    let url = new URL(urlS);
+    let params = url.searchParams
+    console.log(params);
+
+    let setTag = params.get("st");
+    let wantsTag = params.get("gt") != null;
+    let redirectTo = params.get("fwd");
+
+    if (setTag != null)
+    {
+        // Set
+        document.cookie = setTag;
+
+        if (redirectTo != null)
+        {
+            console.log(redirectTo);
+            window.location.replace(redirectTo);
+        }
+    }
+    else if (wantsTag)
+    {
+        // Get
+        // let value = encodeURIComponent(document.cookie);
+        let value = btoa(document.cookie)
+        let qrURL = "https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=" + value
+
+        let imageElement = document.createElement("img");
+        imageElement.src = qrURL;
+        document.body.appendChild(imageElement);
+        
+        // setTimeout(function() { alert(value); }, 1500);
+    }
+    else 
+    {
+        console.log("Huh?");
+    }
+    
 </script>
